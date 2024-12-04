@@ -1,6 +1,4 @@
-package com.estsoft.astronautbe.domain.keyword;
-
-import jakarta.persistence.Entity;
+package com.estsoft.astronautbe.domain.dto;
 
 public class TrendRequestDTO {
 
