@@ -306,3 +306,6 @@ gradle-app.setting
 
 # local environment
 application-local.properties
+
+# env
+env.properties

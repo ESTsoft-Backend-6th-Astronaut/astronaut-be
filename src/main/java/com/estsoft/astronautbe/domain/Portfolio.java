@@ -22,13 +22,13 @@ public class Portfolio {
 	@Column(name = "portfolio_id")
 	private Long portfolioId;
 
-	// 임시
-	@Column(name = "stock_code", nullable = false)
-	private String stockCode;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "stock_code", referencedColumnName = "stock_code", nullable = false)
+	private Stock stock;
 
-	// 임시
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private Users user;
 
 	@Column(name = "average_price", nullable = false)
 	private Integer averagePrice;
