@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "token")
 @Getter
 @NoArgsConstructor
-public class Token {
+public class Token { // token entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id", nullable = false)

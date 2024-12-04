@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "famous_quote")
 @Getter
 @NoArgsConstructor
-public class FamousQuote {
+public class FamousQuote { // quote entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "quote_id", nullable = false)
