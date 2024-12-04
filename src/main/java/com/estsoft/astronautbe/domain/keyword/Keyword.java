@@ -1,10 +1,6 @@
-package com.estsoft.astronautbe.domain;
+package com.estsoft.astronautbe.domain.keyword;
 
 import java.time.LocalDateTime;
-
-import org.hibernate.type.descriptor.jdbc.TinyIntAsSmallIntJdbcType;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

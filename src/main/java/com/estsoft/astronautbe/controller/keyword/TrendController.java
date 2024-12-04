@@ -1,4 +1,4 @@
-package com.estsoft.astronautbe.controller;
+package com.estsoft.astronautbe.controller.keyword;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

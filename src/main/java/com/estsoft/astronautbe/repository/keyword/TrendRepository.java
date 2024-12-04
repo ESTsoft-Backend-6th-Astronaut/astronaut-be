@@ -1,4 +1,4 @@
-package com.estsoft.astronautbe.repository;
+package com.estsoft.astronautbe.repository.keyword;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

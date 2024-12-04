@@ -1,4 +1,4 @@
-package com.estsoft.astronautbe.service;
+package com.estsoft.astronautbe.service.keyword;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.estsoft.astronautbe.repository.TrendRepository;
+import com.estsoft.astronautbe.repository.keyword.TrendRepository;
 
 @Service
 public class TrendService {
