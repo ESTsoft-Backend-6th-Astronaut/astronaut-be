@@ -20,13 +20,13 @@ public class RecommendPortfolioStock {
 	@Column(name = "recommend_portfolio_id", nullable = false)
 	private Long recommendPortfolioId;
 
-	// 임시
-	@Column(name = "users_id", nullable = false)
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private Users user;
 
-	// 임시
-	@Column(name = "stock_code", nullable = false)
-	private String stockCode;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "stock_code", referencedColumnName = "stock_code", nullable = false)
+	private Stock stock;
 
 	@Column(name = "reason", columnDefinition = "TEXT", nullable = false)
 	private String reason;
