@@ -1,0 +1,58 @@
+package com.estsoft.astronautbe.domain;
+
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "keyword_news")
+@Getter
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+public class KeywordNews {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "news_id", nullable = false)
+	private Long newsId;
+
+	@Column(name = "title", columnDefinition = "VARCHAR(255)", nullable = false)
+	private String title;
+
+	@Column(name = "newspaper", columnDefinition = "VARCHAR(255)", nullable = false)
+	private String newspaper;
+
+	@Column(name = "original_link", columnDefinition = "VARCHAR(255)", nullable = false)
+	private String originalLink;
+
+	@Column(name = "pub_date", columnDefinition = "TIMESTAMP", nullable = false)
+	private Timestamp pubDate;
+
+	@Column(name = "emotion", columnDefinition = "TINYINT(1)", nullable = false)
+	private Boolean emotion;
+
+	@Column(name = "summary", columnDefinition = "TEXT", nullable = false)
+	private String summary;
+
+	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false)
+	@CreatedDate
+	private Timestamp created_at;
+
+	@Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
+	@UpdateTimestamp
+	private Timestamp updated_at;
+}
+
+
+
