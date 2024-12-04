@@ -2,6 +2,8 @@ package com.estsoft.astronautbe.domain.keyword;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,9 +35,9 @@ public class SearchVolume {
 	@Column
 	private Double searchVolume;
 
-	@Column
+	@CreatedDate
 	private LocalDateTime searchDate;
 
-	@Column
+	@CreatedDate
 	private LocalDateTime createdAt;
 }

@@ -2,6 +2,8 @@ package com.estsoft.astronautbe.domain.keyword;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +29,7 @@ public class Keyword {
 	@Column
 	private String keywordName;
 
-	@Column
+	@CreatedDate
 	private LocalDateTime createdAt;
 
 	@Column

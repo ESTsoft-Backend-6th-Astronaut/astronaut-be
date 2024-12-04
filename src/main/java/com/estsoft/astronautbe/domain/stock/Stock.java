@@ -3,6 +3,8 @@ package com.estsoft.astronautbe.domain.stock;
 import java.time.LocalDateTime;
 
 import org.springframework.cglib.core.Local;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,10 +61,10 @@ public class Stock {
 	@Column
 	private String totalSharesOutstanding;
 
-	@Column
+	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@Column
+	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
 }
