@@ -1,4 +1,4 @@
-package com.estsoft.astronautbe.domain.keyword;
+package com.estsoft.astronautbe.domain;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,29 +20,31 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "keyword")
 public class Keyword {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "id", columnDefinition = "BIGINT", nullable = false)
 	private Long id;
 
-	@Column
+	@Column(name = "keyword_name", columnDefinition = "VARCHAR(255)", nullable = false)
 	private String keywordName;
 
+	@Column(name = "created_At", columnDefinition = "TIMESTAMP", nullable = false)
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@Column
+	@Column(name = "interest", columnDefinition = "INT", nullable = false)
 	private int interest;
 
-	@Column
+	@Column(name = "emotion", columnDefinition = "TINYINT", nullable = false)
 	private int emotion;
 
-	@Column
+	@Column(name = "reason", columnDefinition = "TEXT", nullable = false)
 	private String reason;
 
-	@Column
+	@Column(name = "ranking", columnDefinition = "INT", nullable = false)
 	private int ranking;
 
 }

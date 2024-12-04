@@ -1,4 +1,4 @@
-package com.estsoft.astronautbe.domain.keyword;
+package com.estsoft.astronautbe.domain;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,25 +20,25 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchVolume {
+@Table(name = "recommend_keyword_stock")
+public class RecommendKeywordStock {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
-	private Long searchId;
-
-	@Column
+	@Column(name = "recommend_stock_id", columnDefinition = "BIGINT", nullable = false)
 	private Long recommendStockId;
 
-	@Column
+	@Column(name = "keyword_id", columnDefinition = "BIGINT", nullable = false)
 	private Long keywordId;
 
-	@Column
-	private Double searchVolume;
+	@Column(name = "stock_code", columnDefinition = "VARCHAR(255)", nullable = false)
+	private String stockCode;
+
+	@Column(name = "reason", columnDefinition = "TEXT", nullable = false)
+	private String reason;
 
 	@CreatedDate
-	private LocalDateTime searchDate;
-
-	@CreatedDate
+	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false)
 	private LocalDateTime createdAt;
+
 }
