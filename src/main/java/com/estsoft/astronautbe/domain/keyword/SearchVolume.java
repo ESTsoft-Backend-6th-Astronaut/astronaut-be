@@ -17,29 +17,25 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Keyword {
+public class SearchVolume {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Long id;
+	private Long searchId;
 
 	@Column
-	private String keywordName;
+	private Long recommendStockId;
+
+	@Column
+	private Long keywordId;
+
+	@Column
+	private Double searchVolume;
+
+	@Column
+	private LocalDateTime searchDate;
 
 	@Column
 	private LocalDateTime createdAt;
-
-	@Column
-	private int interest;
-
-	@Column
-	private int emotion;
-
-	@Column
-	private String reason;
-
-	@Column
-	private int ranking;
-
 }

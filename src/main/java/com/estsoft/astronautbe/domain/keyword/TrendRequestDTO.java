@@ -1,8 +1,7 @@
-package com.estsoft.astronautbe.domain.dto.keyword;
+package com.estsoft.astronautbe.domain.keyword;
 
 import jakarta.persistence.Entity;
 
-@Entity
 public class TrendRequestDTO {
 
 	private String startDate;
