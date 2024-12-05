@@ -56,11 +56,11 @@ public class KeywordNews {
 
 	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false)
 	@CreatedDate
-	private Timestamp created_at;
+	private Timestamp createdAt;
 
 	@Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
 	@UpdateTimestamp
-	private Timestamp updated_at;
+	private Timestamp updatedAt;
 
 	public KeywordNews(Keyword keyword, String title, String newspaper, String originalLink, Timestamp pubDate,
 		Boolean emotion,
