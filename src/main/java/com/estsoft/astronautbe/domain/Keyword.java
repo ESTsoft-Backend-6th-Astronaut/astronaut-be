@@ -3,9 +3,11 @@ package com.estsoft.astronautbe.domain;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,17 +23,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "keyword")
+@EntityListeners(AuditingEntityListener.class)
 public class Keyword {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", columnDefinition = "BIGINT", nullable = false)
-	private Long id;
+	@Column(name = "keyword_id", columnDefinition = "BIGINT", nullable = false)
+	private Long keywordId;
 
 	@Column(name = "keyword_name", columnDefinition = "VARCHAR(255)", nullable = false)
 	private String keywordName;
 
-	@Column(name = "created_At", columnDefinition = "TIMESTAMP", nullable = false)
+	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false)
 	@CreatedDate
 	private LocalDateTime createdAt;
 

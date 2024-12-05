@@ -12,12 +12,14 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "stock")
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -68,5 +70,23 @@ public class Stock {
 
 	@Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
 	@UpdateTimestamp
-	private Timestamp updateAt;
+	private Timestamp updatedAt;
+
+	public void updateDetails(String stockName, String marketName, String stockPrice, String contrast,
+		String fluctuationRate, String marketPrice
+		, String highPrice, String lowPrice, String volume, String dollarVolume, String marketCapitalization,
+		String totalSharesOutstanding) {
+		this.stockName = stockName;
+		this.marketName = marketName;
+		this.stockPrice = stockPrice;
+		this.contrast = contrast;
+		this.fluctuationRate = fluctuationRate;
+		this.marketPrice = marketPrice;
+		this.highPrice = highPrice;
+		this.lowPrice = lowPrice;
+		this.volume = volume;
+		this.dollarVolume = dollarVolume;
+		this.marketCapitalization = marketCapitalization;
+		this.totalSharesOutstanding = totalSharesOutstanding;
+	}
 }
