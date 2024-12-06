@@ -31,21 +31,28 @@ public class KrxApiService {
 		this.repository = repository;
 	}
 
-	public String getKrxDataForYesterday() {
+	public String getKrxKospiDataForYesterday() {
 		Timestamp date_now = Timestamp.valueOf(LocalDateTime.now().minusDays(1));
 		SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
 
-		return getKrxData(today.format(date_now));
+		return getKrxKospiData(today.format(date_now));
 	}
 
-	public String getKrxData(String date) {
+	public String getKrxKosdaqDataForYesterday() {
+		Timestamp date_now = Timestamp.valueOf(LocalDateTime.now().minusDays(1));
+		SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+
+		return getKrxKosdaqData(today.format(date_now));
+	}
+
+	public String getKrxKospiData(String date) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("AUTH_KEY", authKey);
 
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 
 		try {
-			String krxApiUrl = ApiConstants.KRX_API_URL;
+			String krxApiUrl = ApiConstants.KRX_KOSPI_API_URL;
 			ResponseEntity<String> responseEntity = restTemplate.exchange(
 				krxApiUrl + date,
 				HttpMethod.GET,
@@ -55,7 +62,28 @@ public class KrxApiService {
 
 			return responseEntity.getBody();
 		} catch (Exception e) {
-			throw new RuntimeException("KRX API 요청 실패", e);
+			throw new RuntimeException("KRX KOSPI API 요청 실패", e);
+		}
+	}
+
+	public String getKrxKosdaqData(String date) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("AUTH_KEY", authKey);
+
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+
+		try {
+			String krxApiUrl = ApiConstants.KRX_KOSDAQ_API_URL;
+			ResponseEntity<String> responseEntity = restTemplate.exchange(
+				krxApiUrl + date,
+				HttpMethod.GET,
+				entity,
+				String.class
+			);
+
+			return responseEntity.getBody();
+		} catch (Exception e) {
+			throw new RuntimeException("KRX KOSDAQ API 요청 실패", e);
 		}
 	}
 
