@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 import com.estsoft.astronautbe.service.KrxApiService;
 
+import jakarta.transaction.Transactional;
+
 @Component
 public class Scheduler {
 
@@ -14,9 +16,13 @@ public class Scheduler {
 		this.krxApiService = krxApiService;
 	}
 
-	@Scheduled(cron = "0 50 10 * * ?")
+	@Transactional
+	@Scheduled(cron = "0 10 11 * * ?")
 	public void schedule() {
-		String response = krxApiService.getKrxDataForYesterday();
-		krxApiService.saveKrxData(response);
+		String responseKospi = krxApiService.getKrxKospiDataForYesterday();
+		krxApiService.saveKrxData(responseKospi);
+
+		String responseKosdaq = krxApiService.getKrxKosdaqDataForYesterday();
+		krxApiService.saveKrxData(responseKosdaq);
 	}
 }

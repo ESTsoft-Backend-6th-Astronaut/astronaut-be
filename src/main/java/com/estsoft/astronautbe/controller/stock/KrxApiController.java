@@ -15,9 +15,16 @@ public class KrxApiController {
 		this.krxApiService = krxApiService;
 	}
 
-	@GetMapping("/krx-data")
-	public ResponseEntity<String> krxApi() {
-		String response = krxApiService.getKrxDataForYesterday();
+	@GetMapping("/krx-data/kospi")
+	public ResponseEntity<String> krxKospiApi() {
+		String response = krxApiService.getKrxKospiDataForYesterday();
+		krxApiService.saveKrxData(response);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/krx-data/kosdaq")
+	public ResponseEntity<String> krxKosdaqApi() {
+		String response = krxApiService.getKrxKosdaqDataForYesterday();
 		krxApiService.saveKrxData(response);
 		return ResponseEntity.ok(response);
 	}
