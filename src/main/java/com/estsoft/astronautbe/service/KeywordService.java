@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -97,32 +98,10 @@ public class KeywordService {
 					.bodyToMono(String.class)
 					.block();
 
-			// 응답 가공
-			stringResponse = stringResponse.replace("\\n", "");
+			parseRecommendKeywordStock(stringResponse);
 
-			// json으로 파싱
-			// dto로 변환
 			RecommendKeywordStockResponseDTO responseDTO = objectMapper.readValue(stringResponse,
 					RecommendKeywordStockResponseDTO.class);
-
-			// 엔티티에 매핑
-			JsonNode rootNode = objectMapper.readTree(stringResponse);
-			String content = rootNode.path("content").asText();
-			RecommendStockAnswer answer = objectMapper.readValue(content, RecommendStockAnswer.class);
-
-			List<RecommendKeywordStock> stocks = answer.getData().stream()
-					.map(recommendStockData -> {
-						RecommendKeywordStock stock = new RecommendKeywordStock();
-						// 임시 키워드 아이디
-						stock.setKeywordId(1L);
-						stock.setStockCode(recommendStockData.getStockCode());
-						stock.setReason(recommendStockData.getReason());
-						stock.setCreatedAt(recommendStockData.getCreatedAt());
-						return stock;
-					})
-					.collect(Collectors.toList());
-
-			recommendKeywordStockRepository.saveAll(stocks);
 
 			return List.of(responseDTO);
 
@@ -131,6 +110,34 @@ public class KeywordService {
 			throw new RuntimeException("Alan API 호출 중 오류 발생");
 		}
 	}
+
+	// 응답 가공
+	private List<RecommendKeywordStock> parseRecommendKeywordStock(String stringResponse) throws Exception {
+		stringResponse = stringResponse.replace("\\n", "");
+
+		// json으로 파싱
+		JsonNode rootNode = objectMapper.readTree(stringResponse);
+		String content = rootNode.path("content").asText();
+		RecommendStockAnswer answer = objectMapper.readValue(content, RecommendStockAnswer.class);
+
+		// 엔티티에 매핑
+		List<RecommendKeywordStock> stocks = answer.getData().stream()
+				.map(recommendStockData -> {
+					RecommendKeywordStock stock = new RecommendKeywordStock();
+					// 임시 키워드 아이디
+					stock.setKeywordId(1L);
+					stock.setStockCode(recommendStockData.getStockCode());
+					stock.setReason(recommendStockData.getReason());
+					stock.setCreatedAt(recommendStockData.getCreatedAt());
+					return stock;
+				})
+				.collect(Collectors.toList());
+
+		recommendKeywordStockRepository.saveAll(stocks);
+
+		return stocks;
+	}
+
 
 	// 단어 리스트로 검색량 조회
 	public List<SearchVolumeResponseDTO> getSearchAmount(SearchVolumeRequestDTO request) {
@@ -156,7 +163,7 @@ public class KeywordService {
 			SearchVolumeRequestDTO request) {
 		List<SearchVolume> searchVolumes = new ArrayList<>();
 
-		//title->추천종목에서 찾아서 id로 recommend_stock_id .. 키워드도 이건거같은데?
+		//title->추천종목에서 찾아서 id로 recommend_stock_id .. 키워드도 동일
 		RecommendKeywordStock recommendKeywordStock = recommendKeywordStockRepository.findByRecommendStockId(1L);
 
 		for (SearchVolumeResponseDTO.ResultItem result : apiResponse.getResults()) {
