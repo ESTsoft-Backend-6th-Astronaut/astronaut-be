@@ -30,11 +30,8 @@ public class KeywordController {
 	// GET -  키워드를 받아 Alan으로 추천 종목 5개 추출 API
 	@GetMapping("/api/keywords/recommend")
 	public ResponseEntity<List<RecommendKeywordStockResponseDTO>> getRecommendKeywordStock(@RequestParam(name = "content") String keyword){
-		// 추후 추천키워드 받아오도록 수정
-		String keywords = "테스트";
 		RecommendKeywordStockRequestDTO request = new RecommendKeywordStockRequestDTO(keywords);
 		List<RecommendKeywordStockResponseDTO> responseList = service.getRecommendKeywordStock(request);
-		System.out.println("컨트롤러단에서 받은 리스폰스:"+responseList);
 		return ResponseEntity.ok(responseList);
 	}
 
