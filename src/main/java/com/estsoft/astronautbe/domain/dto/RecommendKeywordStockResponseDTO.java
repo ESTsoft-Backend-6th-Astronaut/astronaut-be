@@ -15,25 +15,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @Data
 public class RecommendKeywordStockResponseDTO {
-	private String content; // RecommendStockAnswer로 파싱되어 들어감
-
-// 	private List<RecommendStockAnswer> content;
-//
-// }
-// @Getter
-// @Setter
-// @Data
-// class RecommendStockAnswer{
-// 	private String message;
-// 	private List<StockData> data;
-// }
-//
-//
-// @Getter
-// @Setter
-// @Data
-// class StockData {
-// 	private String StockCode;
-// 	private String reason;
-// 	private LocalDateTime createdAt;
+	private String content;
 }
