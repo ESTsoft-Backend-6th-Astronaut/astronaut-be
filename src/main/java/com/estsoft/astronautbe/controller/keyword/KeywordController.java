@@ -28,10 +28,6 @@ public class KeywordController {
 	}
 
 	// GET -  키워드를 받아 Alan으로 추천 종목 5개 추출 API
-	// 키워드 아이디로 받아오게 하기!!!
-	// 일단은 키워드를 빼고? 먼저 임의의 단어로 집어넣어서?해보기로
-	// 추후 url이나 내용 등 수정하기. 지금은 string으로 받아왔지만 다음번엔 id로 받아서>그걸로 키워드를 찾아서>이 키워드로 검색하도록.
-	// 현재는 키워드 string으로 받아오게 했지만 추후 id로 받아오게 해서 매핑하기
 	@GetMapping("/api/keywords/recommend")
 	public ResponseEntity<List<RecommendKeywordStockResponseDTO>> getRecommendKeywordStock(@RequestParam(name = "content") String keyword){
 		// 추후 추천키워드 받아오도록 수정
@@ -42,9 +38,7 @@ public class KeywordController {
 		return ResponseEntity.ok(responseList);
 	}
 
-
 	// POST - 종목 리스트를 받아 네이버 검색량 조회 API
-	// 키워드 아이디로 받아오게 하기!!!
 	@PostMapping("/api/keywords")
 	public ResponseEntity<List<SearchVolumeResponseDTO>> getTrends(@RequestBody List<String> keywords) {
 		SearchVolumeRequestDTO request = new SearchVolumeRequestDTO(keywords);
