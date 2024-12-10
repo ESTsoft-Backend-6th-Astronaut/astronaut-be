@@ -1,16 +1,21 @@
 package com.estsoft.astronautbe.service;
 
+import com.estsoft.astronautbe.domain.Keyword;
 import com.estsoft.astronautbe.domain.RecommendKeywordStock;
 import com.estsoft.astronautbe.domain.SearchVolume;
+import com.estsoft.astronautbe.domain.Stock;
 import com.estsoft.astronautbe.repository.StockRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -34,6 +39,7 @@ public class KeywordService {
 	private final SearchVolumeRepository searchVolumeRepository;
 	private final RecommendKeywordStockRepository recommendKeywordStockRepository;
 	private final StockRepository stockRepository;
+	private final ClientHttpRequestFactorySettings clientHttpRequestFactorySettings;
 
 	@Value("${naver.client.id}")
 	private String naverClientId;
@@ -49,7 +55,8 @@ public class KeywordService {
 
 	public KeywordService(WebClient.Builder webClientBuilder, KeywordRepository keywordRepository,
 			SearchVolumeRepository searchVolumeRepository, RecommendKeywordStockRepository recommendKeywordStockRepository,
-			ObjectMapper objectMapper, StockRepository stockRepository) {
+			ObjectMapper objectMapper, StockRepository stockRepository,
+			ClientHttpRequestFactorySettings clientHttpRequestFactorySettings) {
 		this.webClient = webClientBuilder.build();
 		this.keywordRepository = keywordRepository;
 		this.searchVolumeRepository = searchVolumeRepository;
@@ -57,12 +64,10 @@ public class KeywordService {
 		this.objectMapper = objectMapper;
 		objectMapper.registerModule(new JavaTimeModule());
 		this.stockRepository = stockRepository;
+		this.clientHttpRequestFactorySettings = clientHttpRequestFactorySettings;
 	}
 
 	// alan api로 추천 종목 뽑아오기
-	// 아니 나 단어 10개씩 보내서 한번에 받아오는거 생각했는데 이게 안되는거같다
-	// 수정해서 한번에 단어 1개 보내는걸로 하고 그걸 또 5번 반복해야 할듯......
-
 	public List<RecommendKeywordStockResponseDTO> getRecommendKeywordStock(RecommendKeywordStockRequestDTO request) {
 		try {
 			String url = ApiConstants.ALLEN_API_URL;
@@ -100,9 +105,9 @@ public class KeywordService {
 			RecommendKeywordStockResponseDTO responseDTO = objectMapper.readValue(stringResponse,
 					RecommendKeywordStockResponseDTO.class);
 
-			// 이게될까
-			JsonNode roodNode = objectMapper.readTree(stringResponse);
-			String content = roodNode.path("content").asText();
+			// 엔티티에 매핑
+			JsonNode rootNode = objectMapper.readTree(stringResponse);
+			String content = rootNode.path("content").asText();
 			RecommendStockAnswer answer = objectMapper.readValue(content, RecommendStockAnswer.class);
 
 			List<RecommendKeywordStock> stocks = answer.getData().stream()
@@ -128,7 +133,7 @@ public class KeywordService {
 	}
 
 	// 단어 리스트로 검색량 조회
-	public SearchVolumeResponseDTO getSearchAmount(SearchVolumeRequestDTO request) {
+	public List<SearchVolumeResponseDTO> getSearchAmount(SearchVolumeRequestDTO request) {
 		String url = ApiConstants.NAVER_TREND_API_URL;
 
 		SearchVolumeResponseDTO response = webClient.post()
@@ -141,25 +146,33 @@ public class KeywordService {
 				.bodyToMono(SearchVolumeResponseDTO.class)
 				.block();
 
-		// DB에 저장하게도 해야 함, seachvolumerepository에 save
-		// 현재 recommendstockid나 keywordid를 연결하지 않았으니 추후 해당부분 완성 후 연결하고 넣을 것
+		List<SearchVolume> searchVolumes = convertToSearchVolumes(response, request);
+		searchVolumeRepository.saveAll(searchVolumes);
 
-		// 키워드 id 찾기
+		return List.of(response);
+	}
 
-		// 주식 찾기
+	private List<SearchVolume> convertToSearchVolumes(SearchVolumeResponseDTO apiResponse,
+			SearchVolumeRequestDTO request) {
+		List<SearchVolume> searchVolumes = new ArrayList<>();
 
-		// ratio를 searchvolume으로 변환
+		//title->추천종목에서 찾아서 id로 recommend_stock_id .. 키워드도 이건거같은데?
+		RecommendKeywordStock recommendKeywordStock = recommendKeywordStockRepository.findByRecommendStockId(1L);
 
-		// searchdate 설정
+		for (SearchVolumeResponseDTO.ResultItem result : apiResponse.getResults()) {
+			SearchVolume volume = new SearchVolume();
+			// 임시 아이디
+			volume.setKeywordId(1L);
+			//임시 추천종목 아이디
+			volume.setRecommendStockId(1L);
+			volume.setSearchVolume(Double.parseDouble(result.getData().get(0).getRatio()));
+			volume.setSearchDate( LocalDateTime.parse( result.getData().get(0).getPeriod() + "T00:00:00",
+					DateTimeFormatter.ISO_LOCAL_DATE_TIME ) );
+			volume.setCreatedAt(LocalDateTime.now());
 
-		// 저장
-//
-// List<SearchVolume> searchVolumes=conver
-// 		// 임시 추천주식 ID
-// 		volume.setRecommendStockId(1L);
-// 		//임시 키워드 ID
-// 		volume.setKeywordId(1L);
-// 		// volume.setSearchVolume();
-		return response;
+			searchVolumes.add(volume);
+		}
+
+		return searchVolumes;
 	}
 }

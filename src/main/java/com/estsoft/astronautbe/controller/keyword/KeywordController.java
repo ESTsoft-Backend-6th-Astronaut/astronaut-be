@@ -46,11 +46,11 @@ public class KeywordController {
 	// POST - 종목 리스트를 받아 네이버 검색량 조회 API
 	// 키워드 아이디로 받아오게 하기!!!
 	@PostMapping("/api/keywords")
-	public ResponseEntity<SearchVolumeResponseDTO> getTrends(@RequestBody List<String> keywords) {
+	public ResponseEntity<List<SearchVolumeResponseDTO>> getTrends(@RequestBody List<String> keywords) {
 		SearchVolumeRequestDTO request = new SearchVolumeRequestDTO(keywords);
-		SearchVolumeResponseDTO response = service.getSearchAmount(request);
+		List<SearchVolumeResponseDTO> responseList = service.getSearchAmount(request);
 
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(responseList);
 	}
 
 }

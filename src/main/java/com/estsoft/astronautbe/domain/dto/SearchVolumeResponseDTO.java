@@ -30,6 +30,7 @@ public class SearchVolumeResponseDTO {
 		public static class DataItem{
 			private String period;
 			private String ratio;
+
 		}
 	}
 }
