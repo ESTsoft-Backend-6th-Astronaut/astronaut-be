@@ -30,4 +30,8 @@ public class StockService {
 			.orElseThrow(() -> new IllegalArgumentException(StockCode + "의 종목이 없습니다."));
 		return StockDetailResponseDTO.fromEntity(stock);
 	}
+
+	public Stock findStockById(String stockCode) {
+		return stockRepository.findById(stockCode).orElseThrow(() -> new IllegalArgumentException(stockCode + "에 해당하는 종목이 없습니다."));
+	}
 }
