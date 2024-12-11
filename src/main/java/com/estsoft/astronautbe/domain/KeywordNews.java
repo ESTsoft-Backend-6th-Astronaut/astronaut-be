@@ -80,6 +80,3 @@ public class KeywordNews {
 		this.summary = summary;
 	}
 }
-
-
-

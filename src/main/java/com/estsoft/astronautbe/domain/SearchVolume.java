@@ -44,6 +44,8 @@ public class SearchVolume {
 	private LocalDateTime searchDate;
 
 	@CreatedDate
-	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false)
+	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
+
+
 }

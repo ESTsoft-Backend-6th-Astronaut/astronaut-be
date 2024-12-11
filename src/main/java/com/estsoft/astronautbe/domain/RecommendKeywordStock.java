@@ -38,7 +38,7 @@ public class RecommendKeywordStock {
 	private String reason;
 
 	@CreatedDate
-	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false)
+	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 
 }

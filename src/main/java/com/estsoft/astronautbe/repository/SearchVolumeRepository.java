@@ -1,0 +1,9 @@
+package com.estsoft.astronautbe.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.estsoft.astronautbe.domain.SearchVolume;
+
+public interface SearchVolumeRepository extends JpaRepository<SearchVolume,Long> {
+
+}
