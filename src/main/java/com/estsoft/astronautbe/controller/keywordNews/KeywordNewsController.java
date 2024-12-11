@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estsoft.astronautbe.domain.dto.keywordNews.KeywordNewsResponseDTO;
 import com.estsoft.astronautbe.service.keywordNews.KeywordNewsService;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class KeywordNewsController {
 

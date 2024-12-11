@@ -1,12 +1,13 @@
 package com.estsoft.astronautbe.domain;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "recommend_portfolio_stock")
@@ -21,7 +22,7 @@ public class RecommendPortfolioStock {
 	private Long recommendPortfolioId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "users_id", nullable = false)
 	private Users user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -33,5 +34,11 @@ public class RecommendPortfolioStock {
 
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreatedDate
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
+
+	public RecommendPortfolioStock(Users user, Stock stock, String reason) {
+		this.user = user;
+		this.stock = stock;
+		this.reason = reason;
+	}
 }

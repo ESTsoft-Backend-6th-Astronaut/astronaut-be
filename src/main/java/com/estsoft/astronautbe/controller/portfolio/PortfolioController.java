@@ -1,14 +1,26 @@
 package com.estsoft.astronautbe.controller.portfolio;
 
-import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioRequestDto;
-import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioResponseDto;
-import com.estsoft.astronautbe.service.PortfolioService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioPriceResponseDTO;
+import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioRequestDto;
+import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioResponseDto;
+import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioStockResponseDTO;
+import com.estsoft.astronautbe.service.PortfolioService;
+import com.estsoft.astronautbe.service.StockService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/portfolios")
@@ -16,8 +28,9 @@ import java.util.Map;
 public class PortfolioController {
 
 	private final PortfolioService portfolioService;
+	private final StockService stockService;
 
-	// 전쳊 조회
+	// 전체 조회
 	@GetMapping
 	public ResponseEntity<?> getAllPortfolios() {
 		// 임시
@@ -67,5 +80,32 @@ public class PortfolioController {
 		return ResponseEntity.ok(Map.of(
 			"message", "포트폴리오 삭제 성공"
 		));
+	}
+
+	// 포트폴리오 전체 현재가 조회
+	@GetMapping("/current_price")
+	public ResponseEntity<?> getCurrentPrice() {
+		Long userId = 1L;
+		List<PortfolioPriceResponseDTO> responseList = portfolioService.getCurrentPortfolioPrices(userId);
+		return ResponseEntity.ok(responseList);
+	}
+
+	// 포트폴리오 종목 추천
+	@GetMapping(value = "/portfolio_recommend")
+	public ResponseEntity<?> recommendStocks() {
+		if (!portfolioService.isTodayRecommendStock()) {
+			String response = portfolioService.getRecommendStockFromAllenAI();
+			portfolioService.saveRecommendStock(response);
+		}
+		List<PortfolioStockResponseDTO> allRecommendStock = portfolioService.getAllRecommendStock();
+		return ResponseEntity.ok(allRecommendStock);
+	}
+
+	// 추천받은 종목 조회
+	@GetMapping("/recommend")
+	public ResponseEntity<?> getRecommendStock() {
+		List<PortfolioStockResponseDTO> allRecommendStock = portfolioService.getAllRecommendStock();
+
+		return ResponseEntity.ok(allRecommendStock);
 	}
 }

@@ -15,7 +15,6 @@ import com.estsoft.astronautbe.domain.dto.stock.StockDetailResponseDTO;
 import com.estsoft.astronautbe.domain.dto.stock.StockResponseDTO;
 import com.estsoft.astronautbe.service.StockService;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/stock")
 @RestController
 public class StockController {
