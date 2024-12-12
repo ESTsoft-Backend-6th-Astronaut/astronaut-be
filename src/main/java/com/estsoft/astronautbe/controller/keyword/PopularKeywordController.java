@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/popular")
+@RequestMapping("/api/keywords")
 public class PopularKeywordController {
 
     private final PopularKeywordService popularKeywordService;
@@ -19,7 +19,7 @@ public class PopularKeywordController {
         this.popularKeywordService = popularKeywordService;
     }
 
-    @GetMapping("/yesterday")
+    @GetMapping("/popular")
     public ResponseEntity<List<Keyword>> getYesterdayPopularKeywords() {
         List<Keyword> keywords = popularKeywordService.getYesterdayPopularKeywords();
         return ResponseEntity.ok(keywords);

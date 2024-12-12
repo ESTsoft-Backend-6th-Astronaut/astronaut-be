@@ -56,7 +56,6 @@ public class PopularKeywordService {
 
         // JSON 파싱 전 본문에서 JSON을 추출
         String responseBody = JsonParserUtil.extractJsonFromContent(rawResponse);
-        System.out.println("Extracted JSON: " + responseBody);
 
         return saveKeywordsToDatabase(responseBody);
     }
@@ -74,7 +73,7 @@ public class PopularKeywordService {
             if (itemsNode != null && itemsNode.isArray()) {
                 // 기존 데이터 삭제
                 // keywordRepository.deleteAll();
-                System.out.println("data");
+
                 for (JsonNode itemNode : itemsNode) {
                     // 각 필드별 null 체크
                     JsonNode keywordNameNode = itemNode.get("keywordName");
@@ -86,10 +85,8 @@ public class PopularKeywordService {
                     if (keywordNameNode == null || interestNode == null ||
                             rankingNode == null || reasonNode == null || emotionNode == null) {
                         // 필드가 하나라도 없으면 로그 출력 후 continue
-                        System.err.println("Some fields are missing in itemNode: " + itemNode.toString());
-                        continue;
+                        throw new IllegalArgumentException("Some fields are missing in itemNode: " + itemNode.toString());
                     }
-
                     Keyword keyword = new Keyword();
                     keyword.setKeywordName(keywordNameNode.asText());
                     keyword.setInterest(interestNode.asInt());
