@@ -41,7 +41,7 @@ public class Keyword {
 	@Column(name = "interest", columnDefinition = "INT", nullable = false)
 	private int interest;
 
-	@Column(name = "emotion", columnDefinition = "INT", nullable = false)
+	@Column(name = "emotion", columnDefinition = "TINYINT", nullable = false)
 	private int emotion;
 
 	@Column(name = "reason", columnDefinition = "TEXT", nullable = false)
