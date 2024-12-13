@@ -50,9 +50,7 @@ public class PopularKeywordService {
                 String.class
         );
 
-        // 실제 응답 바디를 로깅해서 확인
         String rawResponse = responseEntity.getBody();
-        System.out.println("Raw Response: " + rawResponse);
 
         // JSON 파싱 전 본문에서 JSON을 추출
         String responseBody = JsonParserUtil.extractJsonFromContent(rawResponse);
@@ -84,7 +82,6 @@ public class PopularKeywordService {
 
                     if (keywordNameNode == null || interestNode == null ||
                             rankingNode == null || reasonNode == null || emotionNode == null) {
-                        // 필드가 하나라도 없으면 로그 출력 후 continue
                         throw new IllegalArgumentException("Some fields are missing in itemNode: " + itemNode.toString());
                     }
                     Keyword keyword = new Keyword();
@@ -96,7 +93,7 @@ public class PopularKeywordService {
                     keywords.add(keywordRepository.save(keyword));
                 }
             } else {
-                System.err.println("itemsNode is not an array or is null. Response: " + responseBody);
+                throw new IllegalArgumentException("Response body is not an array");
             }
         } catch (Exception e) {
             throw new RuntimeException("Error saving keywords to database", e);
