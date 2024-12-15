@@ -4,6 +4,8 @@ import com.estsoft.astronautbe.domain.Keyword;
 import com.estsoft.astronautbe.domain.RecommendKeywordStock;
 import com.estsoft.astronautbe.domain.SearchVolume;
 import com.estsoft.astronautbe.domain.Stock;
+import com.estsoft.astronautbe.domain.dto.RecommendKeywordStockDTO;
+import com.estsoft.astronautbe.domain.dto.SearchVolumeWithStockDTO;
 import com.estsoft.astronautbe.repository.StockRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.embedded.NettyWebServerFactoryCustomizer;
 import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -54,7 +57,8 @@ public class KeywordService {
 	public KeywordService(WebClient.Builder webClientBuilder, KeywordRepository keywordRepository,
 			SearchVolumeRepository searchVolumeRepository, RecommendKeywordStockRepository recommendKeywordStockRepository,
 			ObjectMapper objectMapper, StockRepository stockRepository,
-			ClientHttpRequestFactorySettings clientHttpRequestFactorySettings) {
+			ClientHttpRequestFactorySettings clientHttpRequestFactorySettings,
+			NettyWebServerFactoryCustomizer nettyWebServerFactoryCustomizer) {
 		this.webClient = webClientBuilder.build();
 		this.keywordRepository = keywordRepository;
 		this.searchVolumeRepository = searchVolumeRepository;
@@ -203,6 +207,7 @@ public class KeywordService {
 					.findFirst()
 					.orElseThrow(() -> new RuntimeException(("해당하는 주식이 존재하지 않습니다.")));
 
+
 			SearchVolume volume = new SearchVolume();
 			volume.setKeywordId(keywordId);
 			volume.setRecommendStockId(matchingStock.getRecommendStockId());
@@ -235,6 +240,55 @@ public class KeywordService {
 			List<String> recommendStockNames = getStockNamesByRecommendKeywordStocks(recommendKeywordStocks);
 			// 키워드 추천 종목 검색량 조회
 			List<SearchVolume> searchVolumes = getSearchAmount(recommendStockNames, keywordId, recommendKeywordStocks);
+			// getSearchAmount(recommendStockNames, keywordId, recommendKeywordStocks);
 		}
+	}
+
+	// 프론트엔드의 recommendstock에서 필요한대로 반환해주는 메소드
+	public List<RecommendKeywordStockDTO> getRecommendStocks(Long keywordId) {
+		List<RecommendKeywordStock> recommendKeywordStocks = recommendKeywordStockRepository.findByKeyword_KeywordId(
+				keywordId);
+
+		List<RecommendKeywordStockDTO> dtos = recommendKeywordStocks.stream()
+				.map(recommendKeywordStock -> {
+					Stock stock = recommendKeywordStock.getStock();
+					return new RecommendKeywordStockDTO(recommendKeywordStock.getRecommendStockId(), stock.getStockName(),
+							recommendKeywordStock.getReason(), stock.getStockPrice());
+				}).collect(Collectors.toList());
+
+		return dtos;
+	}
+
+	public List<SearchVolumeWithStockDTO> getRecommendStockWithSearchVolumes(Long keywordId) {
+		// 추천 종목 조회
+		List<RecommendKeywordStock> recommendKeywordStocks = recommendKeywordStockRepository.findByKeyword_KeywordId(keywordId);
+
+		// 결과 리스트 준비
+		List<SearchVolumeWithStockDTO> result = new ArrayList<>();
+
+		for (RecommendKeywordStock stock : recommendKeywordStocks) {
+			// 검색량 조회: keywordId와 recommendStockId 기준
+			List<SearchVolume> searchVolumes = searchVolumeRepository.findByKeyword_KeywordIdAndRecommendKeywordStock_RecommendStockId(keywordId, stock.getRecommendStockId());
+
+			// 검색량 데이터를 DTO로 변환
+			for (SearchVolume volume : searchVolumes) {
+				Optional<Stock> stockNameOptional = stockRepository.findStockNameByStockCode(stock.getStockCode());
+				if (stockNameOptional.isPresent()) {
+					String stockName = stockNameOptional.get().getStockName();
+
+					SearchVolumeWithStockDTO detail = new SearchVolumeWithStockDTO(
+							getKeywordNameById(keywordId),
+							stockName,
+							stock.getStockCode(),
+							volume.getSearchDate().toLocalDate(),
+							volume.getSearchVolume()
+					);
+
+					result.add(detail);
+				}
+			}
+		}
+
+		return result;
 	}
 }
