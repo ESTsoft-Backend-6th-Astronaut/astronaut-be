@@ -135,11 +135,9 @@ public class KeywordService {
 		List<RecommendKeywordStock> stocks = answer.getData().stream()
 				.map(recommendStockData -> {
 					RecommendKeywordStock stock = new RecommendKeywordStock();
-					// 임시 키워드 아이디
 					stock.setKeywordId(keywordId);
 					stock.setStockCode(recommendStockData.getStockCode());
 					stock.setReason(recommendStockData.getReason());
-					// stock.setCreatedAt(LocalDateTime.now());
 					return stock;
 				})
 				.collect(Collectors.toList());
