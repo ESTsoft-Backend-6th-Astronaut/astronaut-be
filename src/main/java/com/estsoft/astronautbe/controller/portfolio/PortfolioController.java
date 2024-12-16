@@ -48,16 +48,18 @@ public class PortfolioController {
 	// 등록
 	@PostMapping
 	public ResponseEntity<?> createPortfolio(
-		@RequestBody PortfolioRequestDto requestDto) {
+		@RequestBody List<PortfolioRequestDto> requestDTOs) {
 
 		Long userId = 1L; // 임시 userId
 
-		PortfolioResponseDto responseDto = portfolioService.createPortfolio(userId, requestDto);
+		List<PortfolioResponseDto> responseDTOs = requestDTOs.stream()
+			.map(dto -> portfolioService.createPortfolio(userId, dto))
+			.toList();
 
 		return ResponseEntity.ok()
 			.body(Map.of(
 				"message", "포트폴리오 등록 성공",
-				"data", responseDto
+				"data", responseDTOs
 			));
 	}
 
@@ -107,5 +109,14 @@ public class PortfolioController {
 		List<PortfolioStockResponseDTO> allRecommendStock = portfolioService.getAllRecommendStock();
 
 		return ResponseEntity.ok(allRecommendStock);
+	}
+
+	// 오늘 포트폴리오 종목 추천을 받았는지 조회
+	@GetMapping(value = "/is_recommend")
+	public ResponseEntity<?> isRecommendStock() {
+		return ResponseEntity.ok(Map.of(
+			"message", "오늘 종목 추천을 받았는지 조회 성공",
+			"data", portfolioService.isTodayRecommendStock()
+		));
 	}
 }
