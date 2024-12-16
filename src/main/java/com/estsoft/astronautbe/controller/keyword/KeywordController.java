@@ -17,7 +17,6 @@ import com.estsoft.astronautbe.repository.RecommendKeywordStockRepository;
 import com.estsoft.astronautbe.service.KeywordService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://127.0.0.1:3000"})
 public class KeywordController {
 
 	private final KeywordService keywordService;
