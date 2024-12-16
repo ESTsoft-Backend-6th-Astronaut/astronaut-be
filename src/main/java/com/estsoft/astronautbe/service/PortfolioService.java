@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -70,6 +71,11 @@ public class PortfolioService {
 
 		Users user = usersRepository.findById(userId)
 			.orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+
+		Optional<Portfolio> existingPortfolio = portfolioRepository.findByUserAndStock(user, stock);
+		if (existingPortfolio.isPresent()) {
+			throw new IllegalArgumentException("Portfolio already exists for user and stock.");
+		}
 
 		Portfolio portfolio = new Portfolio();
 		portfolio.setStock(stock);
@@ -228,8 +234,14 @@ public class PortfolioService {
 				double stockCount = portfolio.getStockCount();
 				int buyStockPrice = portfolio.getAveragePrice();
 				String currentTotalPrice = String.format("%,d", (int)(currentStockPrice * stockCount));
-				String profitOrLossPrice = String.format("%,d",
-					(int)((currentStockPrice - buyStockPrice) * stockCount));
+
+				String profitOrLossPriceStr;
+				int profitOrLossPrice = (int)((currentStockPrice - buyStockPrice) * stockCount);
+				if (profitOrLossPrice > 0) {
+					profitOrLossPriceStr = "+" + String.format("%,d", profitOrLossPrice);
+				} else {
+					profitOrLossPriceStr = String.format("%,d", profitOrLossPrice);
+				}
 
 				String formattedStockCount;
 				if (stockCount % 1 == 0) {
@@ -244,7 +256,7 @@ public class PortfolioService {
 					stock.getStockName(),
 					currentTotalPrice,
 					formattedStockCount,
-					profitOrLossPrice
+					profitOrLossPriceStr
 				);
 			})
 			.toList();
