@@ -11,8 +11,7 @@ public class SearchVolumeWithStockDTO {
 	private String keywordName;
 	private String stockName;
 	private String stockCode;
-	private LocalDate
-			searchDate;
+	private LocalDate searchDate;
 	private Double searchVolume;
 
 
