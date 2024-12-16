@@ -3,12 +3,17 @@ package com.estsoft.astronautbe.domain;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +26,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "recommend_keyword_stock")
+@EntityListeners(AuditingEntityListener.class)
 public class RecommendKeywordStock {
 
 	@Id
@@ -28,11 +34,13 @@ public class RecommendKeywordStock {
 	@Column(name = "recommend_stock_id", columnDefinition = "BIGINT", nullable = false)
 	private Long recommendStockId;
 
-	@Column(name = "keyword_id", columnDefinition = "BIGINT", nullable = false)
-	private Long keywordId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "keyword_id", referencedColumnName = "keyword_id", nullable = false)
+	private Keyword keyword;
 
-	@Column(name = "stock_code", columnDefinition = "VARCHAR(255)", nullable = false)
-	private String stockCode;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "stock_code", referencedColumnName = "stock_code", nullable = false)
+	private Stock stock;
 
 	@Column(name = "reason", columnDefinition = "TEXT", nullable = false)
 	private String reason;
@@ -41,4 +49,28 @@ public class RecommendKeywordStock {
 	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 
+	public void setKeywordId(Long keywordId) {
+		this.keyword = new Keyword();
+		this.keyword.setKeywordId(keywordId);
+	}
+
+	public Long getKeywordId() {
+		return this.keyword != null ? this.keyword.getKeywordId() : null;
+	}
+
+	public void setStockCode(String stockCode) {
+		this.stock = new Stock();
+		this.stock.setStockCode(stockCode);
+	}
+
+	public String getStockCode() {
+		return this.stock != null ? this.stock.getStockCode() : null;
+	}
+
+	public RecommendKeywordStock(Long recommendStockId, Keyword keyword, Stock stock, String reason) {
+		this.recommendStockId = recommendStockId;
+		this.keyword = keyword;
+		this.stock = stock;
+		this.reason = reason;
+	}
 }

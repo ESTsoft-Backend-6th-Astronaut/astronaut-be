@@ -1,6 +1,7 @@
 package com.estsoft.astronautbe.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,5 @@ public interface StockRepository extends JpaRepository<Stock, String> {
 	List<Stock> findStockByStockNameContaining(String query);
 
 	List<Stock> findByStockCode(String stockCode);
+
 }

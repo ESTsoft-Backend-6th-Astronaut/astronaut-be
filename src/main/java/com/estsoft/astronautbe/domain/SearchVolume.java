@@ -4,13 +4,15 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,11 +32,13 @@ public class SearchVolume {
 	@Column(name = "search_id", columnDefinition = "BIGINT", nullable = false)
 	private Long searchId;
 
-	@Column(name = "recommend_stock_id", columnDefinition = "BIGINT", nullable = false)
-	private Long recommendStockId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "recommend_stock_id", referencedColumnName = "recommend_stock_id", nullable = false)
+	private RecommendKeywordStock recommendKeywordStock;
 
-	@Column(name = "keyword_id", columnDefinition = "BIGINT", nullable = false)
-	private Long keywordId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "keyword_id", referencedColumnName = "keyword_id", nullable = false)
+	private Keyword keyword;
 
 	@Column(name = "search_volume", columnDefinition = "DOUBLE", nullable = false)
 	private Double searchVolume;
@@ -47,5 +51,22 @@ public class SearchVolume {
 	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 
+	public void setKeywordId(Long keywordId) {
+		this.keyword = new Keyword();
+		this.keyword.setKeywordId(keywordId);
+	}
+
+	public Long getKeywordId() {
+		return this.keyword != null ? this.keyword.getKeywordId() : null;
+	}
+
+	public void setRecommendStockId(Long recommendStockId) {
+		this.recommendKeywordStock = new RecommendKeywordStock();
+		this.recommendKeywordStock.setRecommendStockId(recommendStockId);
+	}
+
+	public Long getRecommendStockId() {
+		return this.recommendKeywordStock != null ? this.recommendKeywordStock.getRecommendStockId() : null;
+	}
 
 }
