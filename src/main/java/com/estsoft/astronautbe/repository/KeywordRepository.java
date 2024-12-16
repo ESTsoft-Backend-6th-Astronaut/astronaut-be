@@ -17,4 +17,9 @@ public interface KeywordRepository extends JpaRepository<Keyword,Long> {
 
 	@Query("SELECT k FROM Keyword k WHERE DATE(k.createdAt) = :today ")
 	List<Keyword> findByCreatedAtToday(@Param("today") LocalDateTime createdAt);
+
+	List<Keyword> findAllByOrderByRankingAsc();
+
+	List<Keyword> findAllByOrderByInterestAsc();
+
 }
