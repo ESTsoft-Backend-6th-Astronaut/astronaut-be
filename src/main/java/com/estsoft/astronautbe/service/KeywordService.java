@@ -139,7 +139,7 @@ public class KeywordService {
 					stock.setKeywordId(keywordId);
 					stock.setStockCode(recommendStockData.getStockCode());
 					stock.setReason(recommendStockData.getReason());
-					stock.setCreatedAt(LocalDateTime.now());
+					// stock.setCreatedAt(LocalDateTime.now());
 					return stock;
 				})
 				.collect(Collectors.toList());
@@ -170,7 +170,7 @@ public class KeywordService {
 	public List<SearchVolume> getSearchAmount(List<String> stockNames, Long keywordId,
 			List<RecommendKeywordStock> recommendKeywordStocks) {
 		if (stockNames == null || stockNames.isEmpty()) {
-			System.out.println("주식 이름 리스트가 비어 있습니다.");
+			throw new IllegalArgumentException("주식 이름 리스트가 비어 있습니다.");
 		}
 
 		String url = ApiConstants.NAVER_TREND_API_URL;
@@ -206,7 +206,6 @@ public class KeywordService {
 					})
 					.findFirst()
 					.orElseThrow(() -> new RuntimeException(("해당하는 주식이 존재하지 않습니다.")));
-
 
 			SearchVolume volume = new SearchVolume();
 			volume.setKeywordId(keywordId);
@@ -261,20 +260,22 @@ public class KeywordService {
 
 	public List<SearchVolumeWithStockDTO> getRecommendStockWithSearchVolumes(Long keywordId) {
 		// 추천 종목 조회
-		List<RecommendKeywordStock> recommendKeywordStocks = recommendKeywordStockRepository.findByKeyword_KeywordId(keywordId);
+		List<RecommendKeywordStock> recommendKeywordStocks = recommendKeywordStockRepository.findByKeyword_KeywordId(
+				keywordId);
 
 		// 결과 리스트 준비
 		List<SearchVolumeWithStockDTO> result = new ArrayList<>();
 
 		for (RecommendKeywordStock stock : recommendKeywordStocks) {
 			// 검색량 조회: keywordId와 recommendStockId 기준
-			List<SearchVolume> searchVolumes = searchVolumeRepository.findByKeyword_KeywordIdAndRecommendKeywordStock_RecommendStockId(keywordId, stock.getRecommendStockId());
+			List<SearchVolume> searchVolumes = searchVolumeRepository.findByKeyword_KeywordIdAndRecommendKeywordStock_RecommendStockId(
+					keywordId, stock.getRecommendStockId());
 
 			// 검색량 데이터를 DTO로 변환
 			for (SearchVolume volume : searchVolumes) {
-				Optional<Stock> stockNameOptional = stockRepository.findStockNameByStockCode(stock.getStockCode());
-				if (stockNameOptional.isPresent()) {
-					String stockName = stockNameOptional.get().getStockName();
+				List<Stock> stocks = stockRepository.findByStockCode(stock.getStockCode());
+				if (!stocks.isEmpty()) {
+					String stockName = stocks.get(0).getStockName();
 
 					SearchVolumeWithStockDTO detail = new SearchVolumeWithStockDTO(
 							getKeywordNameById(keywordId),
