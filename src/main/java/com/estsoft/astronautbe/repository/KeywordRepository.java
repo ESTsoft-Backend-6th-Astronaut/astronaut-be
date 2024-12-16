@@ -18,4 +18,9 @@ public interface KeywordRepository extends JpaRepository<Keyword,Long> {
 	@Query("SELECT k FROM Keyword k WHERE k.createdAt BETWEEN :startOfDay AND :endOfDay")
 	List<Keyword> findByCreatedAtToday(@Param("startOfDay") LocalDateTime startOfDay,
 			@Param("endOfDay") LocalDateTime endOfDay);
+
+	List<Keyword> findAllByOrderByRankingAsc();
+
+	List<Keyword> findAllByOrderByInterestAsc();
+
 }
