@@ -53,10 +53,5 @@ public class Keyword {
 
 	@Column(name = "ranking", columnDefinition = "INT", nullable = false)
 	private int ranking;
-
-
-	@OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<RecommendKeywordStock> recommendKeywordStocks = new ArrayList<>();
-
-
+	
 }
