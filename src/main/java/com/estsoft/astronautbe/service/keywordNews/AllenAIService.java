@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -34,9 +35,9 @@ public class AllenAIService {
 		this.repository = repository;
 	}
 
-	public String getAnswerFromAllenAI() {
+	public String getAnswerFromAllenAI(Long keywordId) {
 		String baseUrl = ApiConstants.ALLEN_API_URL;
-		String content = createPrompt();
+		String content = createPrompt(keywordId);
 
 		try {
 			String encodedContent = URLEncoder.encode(content, "UTF-8");
@@ -67,21 +68,24 @@ public class AllenAIService {
 		}
 	}
 
-	public String createPrompt() {
+	public String createPrompt(Long keywordId) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ArrayNode newsArray = objectMapper.createArrayNode();
 
-		for (long i = 71L; i <= 80L; i++) {
+		List<KeywordNews> keywordNewsList = repository.findByKeyword_KeywordId(keywordId);
+
+		for (KeywordNews keywordNews : keywordNewsList) {
 			ObjectNode newsObject = objectMapper.createObjectNode();
-			newsObject.put("id", i);
-			newsObject.put("url", getNewsById(i).getOriginalLink());
-			newsObject.put("title", getNewsById(i).getTitle());
+			newsObject.put("id", keywordNews.getNewsId());
+			newsObject.put("url", keywordNews.getOriginalLink());
+			newsObject.put("title", keywordNews.getTitle());
 			newsArray.add(newsObject);
 		}
 
 		return newsArray
-			+ "위의 10개의 뉴스 기사는 통신을 검색한 결과로 나온 기사들이야 각각의 기사는 id 값이 있어 "
-			+ "응답은 id, emotion, newspaper, summary를 키 값으로 갖는 json 형식으로 알려줘 요구한 모든 데이터는 10개의 json 형식으로 빠짐없이 알려줘야해 "
+			+ "위의 " + keywordNewsList.size() + "개의 뉴스 기사는 통신을 검색한 결과로 나온 기사들이야 각각의 기사는 id 값이 있어 "
+			+ "응답은 id, emotion, newspaper, summary를 키 값으로 갖는 json 형식으로 알려줘 요구한 모든 데이터는 " + keywordNewsList.size()
+			+ "개의 json 형식으로 빠짐없이 알려줘야해 "
 			+ "각각의 뉴스가 통신이라는 주제의 주식 종목들에 대해 긍정적인지 부정적인지 감정 분석 해서 emotion의 value로 긍정적이면 0, 부정적이면 1으로 알려줘 "
 			+ "각각의 뉴스의 언론사를 newspaper의 value로 알려줘 "
 			+ "각각의 뉴스 기사에서 title value에 해당하는 내용을 세문장으로 요약해서 summary의 value로 알려줘";

@@ -9,4 +9,6 @@ import com.estsoft.astronautbe.domain.KeywordNews;
 
 public interface KeywordNewsRepository extends JpaRepository<KeywordNews, Long> {
 	List<KeywordNews> findTop10ByKeywordOrderByCreatedAtDesc(Keyword keywordId);
+
+	List<KeywordNews> findByKeyword_KeywordId(Long keywordId);
 }
