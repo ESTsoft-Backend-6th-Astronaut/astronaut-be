@@ -1,7 +1,7 @@
 package com.estsoft.astronautbe.service;
 
-import com.estsoft.astronautbe.domain.User;
-import com.estsoft.astronautbe.repository.UserRepository;
+import com.estsoft.astronautbe.domain.Users;
+import com.estsoft.astronautbe.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -20,12 +20,12 @@ public class KakaoService {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository userRepository;
 
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public User getKakaoUser(String code, String redirectUri) {
+    public Users getKakaoUser(String code, String redirectUri) {
         String accessToken = getAccessToken(code, redirectUri);
         return getUserInfo(accessToken);
     }
@@ -56,7 +56,7 @@ public class KakaoService {
         }
     }
 
-    private User getUserInfo(String accessToken) {
+    private Users getUserInfo(String accessToken) {
         String url = "https://kapi.kakao.com/v2/user/me";
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
@@ -72,8 +72,8 @@ public class KakaoService {
             String email = jsonNode.get("id").asText()+"@kakao.user";
             String name = jsonNode.get("properties").get("nickname").asText();
 
-            User user = userRepository.findBySocialIdIsAndProviderIs(kakaoId,"KAKAO").orElse(
-                    User.builder().provider("KAKAO").socialId(kakaoId).email(email).name(name).build()
+            Users user = userRepository.findBySocialIdIsAndProviderIs(kakaoId,"KAKAO").orElse(
+                    Users.builder().provider("KAKAO").socialId(kakaoId).email(email).name(name).build()
             );
             return userRepository.save(user);
 

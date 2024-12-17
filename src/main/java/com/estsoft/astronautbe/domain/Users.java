@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class User {
     @Column(name = "provider", columnDefinition = "VARCHAR(255)", nullable = false)
     private String provider;
 
-    public User(String socialId, String email, String name, String provider) {
+    public Users(String socialId, String email, String name, String provider) {
         this.socialId = socialId;
         this.email = email;
         this.name = name;

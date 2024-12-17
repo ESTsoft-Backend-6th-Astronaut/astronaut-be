@@ -23,7 +23,7 @@ public class RecommendPortfolioStock {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "users_id", nullable = false)
-	private User user;
+	private Users user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stock_code", referencedColumnName = "stock_code", nullable = false)
@@ -36,7 +36,7 @@ public class RecommendPortfolioStock {
 	@CreatedDate
 	private Timestamp createdAt;
 
-	public RecommendPortfolioStock(User user, Stock stock, String reason) {
+	public RecommendPortfolioStock(Users user, Stock stock, String reason) {
 		this.user = user;
 		this.stock = stock;
 		this.reason = reason;
