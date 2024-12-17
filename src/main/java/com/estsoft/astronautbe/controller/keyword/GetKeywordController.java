@@ -15,10 +15,8 @@ public class GetKeywordController {
     @Autowired
     private GetKeywordService getKeywordService;
 
-    @GetMapping("/ranking")
-    public List<Keyword> getKeywords() {
-        return getKeywordService.getKeywords();
-    }
+    @GetMapping("/get_today")
+    public List<Keyword> getTodayKeywords() { return getKeywordService.getTodayKeywords(); }
 
     @GetMapping("/interesting")
     public List<Keyword> getInterestingKeywords() {
