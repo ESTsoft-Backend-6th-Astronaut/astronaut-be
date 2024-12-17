@@ -37,7 +37,7 @@ class AllenAIControllerTest {
 	void testAllenApi() throws Exception {
 		// given
 		String mockResponse = "This is a mock response from Allen AI";
-		when(allenAIService.getAnswerFromAllenAI()).thenReturn(mockResponse);
+		when(allenAIService.getAnswerFromAllenAI(1L)).thenReturn(mockResponse);
 
 		// when
 		ResultActions resultActions = mockMvc.perform(get("/allen_api")
@@ -47,6 +47,6 @@ class AllenAIControllerTest {
 		resultActions.andExpect(status().isOk())
 			.andExpect(content().string(mockResponse));
 
-		verify(allenAIService, times(1)).getAnswerFromAllenAI();
+		verify(allenAIService, times(1)).getAnswerFromAllenAI(1L);
 	}
 }

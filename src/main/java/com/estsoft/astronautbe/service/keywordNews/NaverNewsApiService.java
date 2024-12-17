@@ -55,7 +55,7 @@ public class NaverNewsApiService {
 		return get(apiURL, requestHeaders);
 	}
 
-	public void saveNewsToDatabase(String responseBody) {
+	public void saveNewsToDatabase(String responseBody, Long keywordId) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode rootNode = objectMapper.readTree(responseBody);
@@ -76,7 +76,7 @@ public class NaverNewsApiService {
 						throw new RuntimeException("날짜 형식 변환 실패: " + pubDateString, e);
 					}
 
-					Keyword keyword = keywordRepository.findById(1L).orElse(null);
+					Keyword keyword = keywordRepository.findById(keywordId).orElse(null);
 					KeywordNews news = new KeywordNews(keyword, title, null, link, pubDate, null, null);
 					repository.save(news);
 				}

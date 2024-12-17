@@ -17,7 +17,7 @@ public class AllenAIController {
 
 	@GetMapping("/allen_api")
 	public ResponseEntity<String> allenApi() {
-		String response = allenAIService.getAnswerFromAllenAI();
+		String response = allenAIService.getAnswerFromAllenAI(1L); // 임시 keywordId
 		allenAIService.saveNewsToDatabase(response);
 
 		return ResponseEntity.ok(response);
