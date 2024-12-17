@@ -24,4 +24,11 @@ public class PopularKeywordController {
         List<Keyword> keywords = popularKeywordService.getYesterdayPopularKeywords();
         return ResponseEntity.ok(keywords);
     }
+
+    // 최근 키워드를 DB에서 가져오는 api(alan 사용X)
+    @GetMapping("/popular/react")
+    public ResponseEntity<List<Keyword>> getPopularKeywordsForReact(){
+        List<Keyword> keywords = popularKeywordService.getPopularKeywordsForReact();
+        return ResponseEntity.ok(keywords);
+    }
 }

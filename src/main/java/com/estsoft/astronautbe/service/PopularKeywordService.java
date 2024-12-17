@@ -1,5 +1,6 @@
 package com.estsoft.astronautbe.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,5 +107,12 @@ public class PopularKeywordService {
 			throw new RuntimeException("Error saving keywords to database", e);
 		}
 		return keywords;
+	}
+
+	// 리액트 반환용 (ALAN에게서 매번 호출하는 방식이 아닌 DB에서 가져오는 방식)
+	public List<Keyword> getPopularKeywordsForReact() {
+		LocalDateTime startOfDay = LocalDateTime.now().toLocalDate().atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
+		return keywordRepository.findByCreatedAtToday(startOfDay, endOfDay);
 	}
 }
