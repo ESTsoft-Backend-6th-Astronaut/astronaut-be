@@ -1,5 +1,15 @@
 package com.estsoft.astronautbe.service;
 
+import com.estsoft.astronautbe.domain.Keyword;
+import com.estsoft.astronautbe.domain.RecommendKeywordStock;
+import com.estsoft.astronautbe.domain.SearchVolume;
+import com.estsoft.astronautbe.domain.Stock;
+import com.estsoft.astronautbe.domain.dto.RecommendKeywordStockDTO;
+import com.estsoft.astronautbe.domain.dto.SearchVolumeWithStockDTO;
+import com.estsoft.astronautbe.repository.StockRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,22 +26,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.estsoft.astronautbe.config.ApiConstants;
-import com.estsoft.astronautbe.domain.Keyword;
-import com.estsoft.astronautbe.domain.RecommendKeywordStock;
-import com.estsoft.astronautbe.domain.SearchVolume;
-import com.estsoft.astronautbe.domain.Stock;
-import com.estsoft.astronautbe.domain.dto.RecommendKeywordStockDTO;
 import com.estsoft.astronautbe.domain.dto.RecommendStockAnswer;
 import com.estsoft.astronautbe.domain.dto.SearchVolumeRequestDTO;
 import com.estsoft.astronautbe.domain.dto.SearchVolumeResponseDTO;
-import com.estsoft.astronautbe.domain.dto.SearchVolumeWithStockDTO;
 import com.estsoft.astronautbe.repository.KeywordRepository;
 import com.estsoft.astronautbe.repository.RecommendKeywordStockRepository;
 import com.estsoft.astronautbe.repository.SearchVolumeRepository;
-import com.estsoft.astronautbe.repository.StockRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Service
 public class KeywordService {
@@ -47,7 +48,7 @@ public class KeywordService {
 	@Value("${naver.client.secret}")
 	private String naverClientSecret;
 
-	@Value("${ALLEN_API_ID}")
+	@Value("${allen.client.id}")
 	private String alanClientId;
 
 	private final WebClient webClient;
@@ -123,9 +124,7 @@ public class KeywordService {
 	// 응답 가공
 	private List<RecommendKeywordStock> parseRecommendKeywordStock(String stringResponse, Long keywordId) throws
 			Exception {
-		stringResponse = stringResponse.replace("\\n", "")     // 줄바꿈 제거
-			.replace("```json", "") // ```json 제거
-			.replace("```", "");    // 닫는 백틱 제거
+		stringResponse = stringResponse.replace("\\n", "");
 
 		// json으로 파싱
 		JsonNode rootNode = objectMapper.readTree(stringResponse);
