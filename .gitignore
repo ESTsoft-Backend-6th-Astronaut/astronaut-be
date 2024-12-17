@@ -308,4 +308,4 @@ gradle-app.setting
 application-local.properties
 
 # env
-env.properties
+src/main/resources/env.properties

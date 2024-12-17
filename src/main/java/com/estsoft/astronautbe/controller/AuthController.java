@@ -1,16 +1,17 @@
 package com.estsoft.astronautbe.controller;
 
-import com.estsoft.astronautbe.domain.Users;
+import com.estsoft.astronautbe.domain.User;
 import com.estsoft.astronautbe.service.KakaoService;
 import com.estsoft.astronautbe.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class KakaoController {
+@RequestMapping("/api/oauth")
+public class AuthController {
+
+
 
     @Autowired
     private KakaoService kakaoService;
@@ -18,10 +19,13 @@ public class KakaoController {
     @Autowired
     private JwtService jwtService;
 
-    @GetMapping("/auth/kakao/callback")
-    public ResponseEntity<String> kakaoLogin(@RequestParam String code) {
-        Users user = kakaoService.getKakaoUser(code);
+    @GetMapping("/kakao")
+    public ResponseEntity<String> kakaoLogin(@RequestParam String code, @RequestParam String redirectUri) {
+        User user = kakaoService.getKakaoUser(code, redirectUri);
+
+        System.out.println(user);
         String jwtToken = jwtService.createToken(user.getUsersId());
+        System.out.println(jwtToken);
         return ResponseEntity.ok(jwtToken);
     }
 }

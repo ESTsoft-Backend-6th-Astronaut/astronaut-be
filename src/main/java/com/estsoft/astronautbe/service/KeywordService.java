@@ -48,7 +48,7 @@ public class KeywordService {
 	@Value("${naver.client.secret}")
 	private String naverClientSecret;
 
-	@Value("${alan.client.id}")
+	@Value("${allen.client.id}")
 	private String alanClientId;
 
 	private final WebClient webClient;

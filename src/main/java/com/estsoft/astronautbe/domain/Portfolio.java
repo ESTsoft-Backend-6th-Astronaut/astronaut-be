@@ -28,7 +28,7 @@ public class Portfolio {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "users_id", nullable = false)
-	private Users user;
+	private User user;
 
 	@Column(name = "average_price", nullable = false)
 	private Integer averagePrice;
