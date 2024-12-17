@@ -39,7 +39,9 @@ public class PopularKeywordService {
 		}
 
 		String url = allenApiUrl;
-		String content = "전날 주식시장 종목명을 제외한 인기 키워드 10개를 정리하고 뉴스를 제거하고 키워드명, 관심도는 상대적으로 1~100으로, 순위, 이유, 긍정이면 0으로 하고 부정적이면 1로 정리해서 json 형태로만 알려줘 필드의 값은 keywordName, interest, ranking, reason, emotion 순서로 알려줘";
+		String content = "전날 주식시장 종목명을 제외한 인기 키워드 10개를 정리하고 뉴스를 제거하고 키워드명, 관심도는 상대적으로 1~100으로, 순위, 이유, 긍정이면 0으로 하고 부정적이면 1로 정리해서 json 형태로만 알려줘. "
+			+ "필드의 값은 keywordName, interest, ranking, reason, emotion 순서로 알려줘. "
+			+ "reason은 최소 100자 이상으로 작성해줘.";
 		String requestUrl = String.format("%s?content=%s&client_id=%s", url, content, allenApiId);
 
 		HttpHeaders headers = new HttpHeaders();
