@@ -19,7 +19,7 @@ public class NewsApiController {
 	@GetMapping("/news_api")
 	public ResponseEntity<String> newsApi(@RequestParam("query") String query) {
 		String responseBody = service.getNews(query);
-		service.saveNewsToDatabase(responseBody);
+		service.saveNewsToDatabase(responseBody, 1L); // 임시 keywordId
 		return ResponseEntity.ok(responseBody);
 	}
 }
