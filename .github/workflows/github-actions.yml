@@ -41,6 +41,9 @@ jobs:
         KRX_API_ID: ${{ secrets.KRX_API_ID }}
         NAVER_API_ID: ${{ secrets.NAVER_API_ID }}
         NAVER_API_SECRET: ${{ secrets.NAVER_API_SECRET }}
+        DB_URL: ${{ secrets.DB_URL }}
+        DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: echo "Environment variables configured."
       
     - name: Build with Gradle Wrapper
@@ -51,7 +54,10 @@ jobs:
         KRX_API_ID: ${{ secrets.KRX_API_ID }}
         NAVER_API_ID: ${{ secrets.NAVER_API_ID }}
         NAVER_API_SECRET: ${{ secrets.NAVER_API_SECRET }}
-
+        DB_URL: ${{ secrets.DB_URL }}
+        DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        
     - name: Make zip file
       run: zip -r ./$GITHUB_SHA.zip .
       shell: bash
