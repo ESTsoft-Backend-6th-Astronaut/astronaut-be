@@ -11,9 +11,6 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 @Configuration
 @EnableEncryptableProperties
 public class JasyptConfigAES {
-	@Value("jasypt.encryptor.key")
-	private String passwordKey;
-	
 	@Bean("jasyptEncryptorAES")
 	public StringEncryptor stringEncryptor() {
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
