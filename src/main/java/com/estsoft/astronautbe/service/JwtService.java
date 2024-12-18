@@ -30,7 +30,7 @@ public class JwtService {
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
-    public Integer getUserIdFromToken(String token) {
+    public Long getUserIdFromToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer("astronaut")
@@ -41,6 +41,6 @@ public class JwtService {
 
         // Subject 추출
         String subject = decodedJWT.getSubject();
-        return Integer.valueOf(subject);
+        return Long.valueOf(subject);
     }
 }

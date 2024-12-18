@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/oauth")
 public class AuthController {
@@ -20,12 +22,10 @@ public class AuthController {
     private JwtService jwtService;
 
     @GetMapping("/kakao")
-    public ResponseEntity<String> kakaoLogin(@RequestParam String code, @RequestParam String redirectUri) {
+    public ResponseEntity<?> kakaoLogin(@RequestParam String code, @RequestParam String redirectUri) {
         Users user = kakaoService.getKakaoUser(code, redirectUri);
-
-        System.out.println(user);
         String jwtToken = jwtService.createToken(user.getUsersId());
-        System.out.println(jwtToken);
-        return ResponseEntity.ok(jwtToken);
+
+        return ResponseEntity.ok(Map.of("token", jwtToken, "user", user));
     }
 }

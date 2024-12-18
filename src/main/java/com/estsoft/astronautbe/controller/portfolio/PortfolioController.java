@@ -3,15 +3,9 @@ package com.estsoft.astronautbe.controller.portfolio;
 import java.util.List;
 import java.util.Map;
 
+import com.estsoft.astronautbe.service.JwtService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioPriceResponseDTO;
 import com.estsoft.astronautbe.domain.dto.portfolio.PortfolioRequestDto;
@@ -29,14 +23,17 @@ public class PortfolioController {
 
 	private final PortfolioService portfolioService;
 	private final StockService stockService;
+	private final JwtService jwtService;
 
 	// 전체 조회
 	@GetMapping
-	public ResponseEntity<?> getAllPortfolios() {
+	public ResponseEntity<?> getAllPortfolios(@RequestHeader(required = false) String token) {
 		// 임시
-		Long hardCodedUserId = 1L;
 
-		List<PortfolioResponseDto> portfolios = portfolioService.getAllPortfolios(hardCodedUserId);
+
+		Long userId = token != null ? jwtService.getUserIdFromToken(token) : 1L;
+
+		List<PortfolioResponseDto> portfolios = portfolioService.getAllPortfolios(userId);
 
 		return ResponseEntity.ok()
 			.body(Map.of(
@@ -47,10 +44,10 @@ public class PortfolioController {
 
 	// 등록
 	@PostMapping
-	public ResponseEntity<?> createPortfolio(
+	public ResponseEntity<?> createPortfolio(@RequestHeader(required = false) String token,
 		@RequestBody List<PortfolioRequestDto> requestDTOs) {
 
-		Long userId = 1L; // 임시 userId
+		Long userId = token != null ? jwtService.getUserIdFromToken(token) : 1L;
 
 		List<PortfolioResponseDto> responseDTOs = requestDTOs.stream()
 			.map(dto -> portfolioService.createPortfolio(userId, dto))
@@ -86,8 +83,8 @@ public class PortfolioController {
 
 	// 포트폴리오 전체 현재가 조회
 	@GetMapping("/current_price")
-	public ResponseEntity<?> getCurrentPrice() {
-		Long userId = 1L;
+	public ResponseEntity<?> getCurrentPrice(@RequestHeader(required = false) String token) {
+		Long userId = token != null ? jwtService.getUserIdFromToken(token) : 1L;
 		List<PortfolioPriceResponseDTO> responseList = portfolioService.getCurrentPortfolioPrices(userId);
 		return ResponseEntity.ok(responseList);
 	}
