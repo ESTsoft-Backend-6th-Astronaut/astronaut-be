@@ -22,4 +22,4 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "## deploy JAR file"   >> /home/ec2-user/action/spring-deploy.log
-nohup java -DJASYPTKEY=Q1d7M3bP5y6L4nW -jar $DEPLOY_JAR >> /home/ec2-user/action/spring-deploy.log 2> /home/ec2-user/action/spring-deploy_err.log &
+nohup java -jar -DJASYPTKEY=Q1d7M3bP5y6L4nW $DEPLOY_JAR >> /home/ec2-user/action/spring-deploy.log 2> /home/ec2-user/action/spring-deploy_err.log &
