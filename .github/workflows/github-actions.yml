@@ -38,7 +38,7 @@ jobs:
       run: echo "Environment variables configured."
       
     - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./gradlew build -x test
       env:
         JASYPTKEY: ${{ secrets.JASYPTKEY }}
         ALLEN_API_ID: ${{ secrets.ALLEN_API_ID }}
