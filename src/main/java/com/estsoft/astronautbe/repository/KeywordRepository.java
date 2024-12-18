@@ -23,4 +23,6 @@ public interface KeywordRepository extends JpaRepository<Keyword,Long> {
 
 	List<Keyword> findAllByOrderByInterestAsc();
 
+	List<Keyword> findTop10ByOrderByCreatedAtDescRankingAsc();
+
 }
