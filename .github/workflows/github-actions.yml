@@ -57,7 +57,18 @@ jobs:
         DB_URL: ${{ secrets.DB_URL }}
         DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        
+
+    - name: Create .env file
+      run: |
+          echo ALLEN_API_ID: ${{ secrets.ALLEN_API_ID }} >> .env
+          echo KRX_API_ID: ${{ secrets.KRX_API_ID }} >> .env
+          echo NAVER_API_ID: ${{ secrets.NAVER_API_ID }} >> .env
+          echo NAVER_API_SECRET: ${{ secrets.NAVER_API_SECRET }} >> .env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+          echo "DB_USER_NAME=${{ secrets.DB_USER_NAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "Environment variables saved to .env file."
+
     - name: Make zip file
       run: zip -r ./$GITHUB_SHA.zip .
       shell: bash
@@ -75,6 +86,13 @@ jobs:
     - name: Code Deploy
       run: aws deploy create-deployment --application-name $CODEDEPLOY_NAME --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name $CODEDEPLOY_GROUP --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
 
+    - name: Copy .env file to EC2
+      env:
+        EC2_SSH_KEY_PATH: ${{ secrets.EC2_SSH_KEY_PATH }}
+        EC2_INSTANCE: ${{ secrets.EC2_INSTANCE }}
+      run: |
+        scp -i $EC2_SSH_KEY_PATH .env $EC2_INSTANCE:/home/ec2-user/action/
+      
   dependency-submission:
 
     runs-on: ubuntu-latest
