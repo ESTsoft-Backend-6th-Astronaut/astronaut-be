@@ -11,11 +11,14 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 @Configuration
 @EnableEncryptableProperties
 public class JasyptConfigAES {
+	@Value("${jasypt.encryptor.key}")
+	private String passwordKey;
+
 	@Bean("jasyptEncryptorAES")
 	public StringEncryptor stringEncryptor() {
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		config.setPassword(System.getenv("JASYPTKEY"));     // 지정한 암호화 키
+		config.setPassword(passwordKey);     // 지정한 암호화 키
 		config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");    // 알고리즘
 		config.setKeyObtentionIterations("1000");    // 반복할 해싱 회수
 		config.setPoolSize("1");    // 인스턴스 pool
