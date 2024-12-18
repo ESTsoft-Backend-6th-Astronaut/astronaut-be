@@ -163,10 +163,12 @@ public class PortfolioService {
 			"답변은 순수한 json 형태로만 보내줘. 다음은 내가 제시하는 형식이야.\n" +
 			"{" +
 			"  \"message\": \"키워드 추천 종목 조회 성공\"," +
-			"  \"data\": {" +
-			"    \"stockCode\": \"String\"," +
-			"    \"reason\": \"String\"," +
-			"  }" +
+			"  \"data\": [" +
+			"    {" +
+			"      \"stockCode\": \"String\"," +
+			"      \"reason\": \"String\"" +
+			"    }" +
+			"  ]" +
 			"}";
 	}
 

@@ -1,6 +1,6 @@
 package com.estsoft.astronautbe.domain;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,7 +47,7 @@ public class RecommendKeywordStock {
 
 	@CreatedDate
 	@Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 
 	public void setKeywordId(Long keywordId) {
 		this.keyword = new Keyword();
