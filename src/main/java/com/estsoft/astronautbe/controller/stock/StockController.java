@@ -44,4 +44,16 @@ public class StockController {
 				"data", stock
 			));
 	}
+
+	// stock -> recommend_stock_id parameter로 받아서 stock_code 조회해서 리턴
+	@GetMapping("/stock_detail")
+	public ResponseEntity<?> getStock(@RequestParam(name = "stockId") Long stockId,
+		@RequestParam(name = "dataType") String stockType) {
+		StockDetailResponseDTO stock = stockService.findStockByRecommendStockId(stockType, stockId);
+		return ResponseEntity.ok()
+			.body(Map.of(
+				"message", "종목 상세 조회 성공",
+				"data", stock
+			));
+	}
 }

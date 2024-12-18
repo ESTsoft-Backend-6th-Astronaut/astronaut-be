@@ -26,6 +26,10 @@ public class GetKeywordService {
     public List<Keyword> getTodayKeywords() {
         LocalDateTime startOfDay = LocalDateTime.now().with(LocalTime.MIN);
         LocalDateTime endOfDay = LocalDateTime.now().with(LocalTime.MAX);
-        return keywordRepository.findByCreatedAtToday(startOfDay, endOfDay);
+        List<Keyword> keywords = keywordRepository.findByCreatedAtToday(startOfDay, endOfDay);
+        if (keywords.isEmpty()) {
+            return keywordRepository.findTop10ByOrderByCreatedAtDescRankingAsc();
+        }
+        return keywords;
     }
 }
