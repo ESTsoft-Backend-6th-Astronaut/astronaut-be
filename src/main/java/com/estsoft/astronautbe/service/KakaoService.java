@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-@PropertySource("classpath:env.properties")
+// @PropertySource("classpath:env.properties")
 public class KakaoService {
 
 	@Value("${KAKAO_API_ID}")

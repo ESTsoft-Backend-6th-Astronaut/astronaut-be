@@ -20,7 +20,7 @@ import com.estsoft.astronautbe.repository.StockRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@PropertySource("classpath:env.properties")
+// @PropertySource("classpath:env.properties")
 @Service
 public class KrxApiService {
 	@Value("${krx.client.id}")
