@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 @EnableScheduling
 @SpringBootApplication
-@PropertySource("classpath:env.properties")
+// @PropertySource("classpath:env.properties")
 public class AstronautBeApplication {
 
 	public static void main(String[] args) {
