@@ -66,111 +66,112 @@
 ## 5. 프로젝트
 ### 5.1 프로젝트 구조
 <details>
-<summary>접기/펼치기</summary>
+<summary>
   📦astronaut-be   
-  ├── README.md  
-  ├── appspec.yml  
-  ├── build.gradle  
-  ├── gradle  
-  ├── gradlew  
-  ├── gradlew.bat  
-  ├── pull_request_template.md  
-  ├── scripts  
-  │   └── deploy.sh  
-  ├── settings.gradle  
-  ├── src  
-  │   ├── main  
-  │   │   ├── java  
-  │   │   │   └── com  
-  │   │   │       └── estsoft  
-  │   │   │           └── astronautbe  
-  │   │   │               ├── AstronautBeApplication.java  
-  │   │   │               ├── config  
-  │   │   │               │   ├── ApiConstants.java  
-  │   │   │               │   ├── JasyptConfigAES.java  
-  │   │   │               │   ├── Scheduler.java  
-  │   │   │               │   ├── SecurityConfig.java  
-  │   │   │               │   └── WebConfig.java  
-  │   │   │               ├── controller  
-  │   │   │               │   ├── AuthController.java  
-  │   │   │               │   ├── keyword  
-  │   │   │               │   │   ├── GetKeywordController.java  
-  │   │   │               │   │   ├── KeywordController.java  
-  │   │   │               │   │   └── PopularKeywordController.java  
-  │   │   │               │   ├── keywordNews  
-  │   │   │               │   │   ├── AllenAIController.java  
-  │   │   │               │   │   ├── KeywordNewsController.java  
-  │   │   │               │   │   └── NewsApiController.java  
-  │   │   │               │   ├── loading  
-  │   │   │               │   │   └── LoadingPageController.java  
-  │   │   │               │   ├── portfolio  
-  │   │   │               │   │   └── PortfolioController.java  
-  │   │   │               │   └── stock  
-  │   │   │               │         ├── KrxApiController.java  
-  │   │   │               │         └── StockController.java  
-  │   │   │               ├── domain  
-  │   │   │               │   ├── FamousQuote.java  
-  │   │   │               │   ├── Keyword.java  
-  │   │   │               │   ├── KeywordNews.java  
-  │   │   │               │   ├── Portfolio.java  
-  │   │   │               │   ├── RecommendKeywordStock.java  
-  │   │   │               │   ├── RecommendPortfolioStock.java  
-  │   │   │               │   ├── SearchVolume.java  
-  │   │   │               │   ├── Stock.java  
-  │   │   │               │   ├── Token.java  
-  │   │   │               │   ├── Users.java  
-  │   │   │               │   └── dto  
-  │   │   │               │      ├── RecommendKeywordStockDTO.java  
-  │   │   │               │      ├── RecommendKeywordStockRequestDTO.java  
-  │   │   │               │      ├── RecommendKeywordStockResponseDTO.java  
-  │   │   │               │      ├── RecommendStockAnswer.java  
-  │   │   │               │      ├── SearchVolumeRequestDTO.java  
-  │   │   │               │      ├── SearchVolumeResponseDTO.java  
-  │   │   │               │      ├── SearchVolumeWithStockDTO.java  
-  │   │   │               │      ├── keywordNews  
-  │   │   │               │      │   └── KeywordNewsResponseDTO.java  
-  │   │   │               │      ├── portfolio  
-  │   │   │               │      │   ├── PortfolioPriceResponseDTO.java  
-  │   │   │               │      │   ├── PortfolioRequestDto.java  
-  │   │   │               │      │   ├── PortfolioResponseDto.java  
-  │   │   │               │      │   └── PortfolioStockResponseDTO.java  
-  │   │   │               │      └── stock  
-  │   │   │               │          ├── StockDetailResponseDTO.java  
-  │   │   │               │          └── StockResponseDTO.java  
-  │   │   │               ├── repository  
-  │   │   │               │   ├── KeywordNewsRepository.java  
-  │   │   │               │   ├── KeywordRepository.java  
-  │   │   │               │   ├── PortfolioRepository.java  
-  │   │   │               │   ├── QuoteRepository.java  
-  │   │   │               │   ├── RecommendKeywordStockRepository.java  
-  │   │   │               │   ├── RecommendPortfolioStockRepository.java  
-  │   │   │               │   ├── SearchVolumeRepository.java  
-  │   │   │               │   ├── StockRepository.java  
-  │   │   │               │   └── UsersRepository.java  
-  │   │   │               ├── service  
-  │   │   │               │   ├── GetKeywordService.java  
-  │   │   │               │   ├── JwtService.java  
-  │   │   │               │   ├── KakaoService.java  
-  │   │   │               │   ├── KeywordService.java  
-  │   │   │               │   ├── KrxApiService.java  
-  │   │   │               │   ├── PopularKeywordService.java  
-  │   │   │               │   ├── PortfolioService.java  
-  │   │   │               │   ├── QuoteService.java  
-  │   │   │               │   ├── StockService.java  
-  │   │   │               │   └── keywordNews  
-  │   │   │               │        ├── AllenAIService.java  
-  │   │   │               │        ├── KeywordNewsService.java  
-  │   │   │               │        └── NaverNewsApiService.java  
-  │   │   │               └── util  
-  │   │   │                      └── JsonParserUtil.java  
-  │   │   └── resources  
-  │   │        └── application.properties  
-  │   └── test  
-  │     └── java  
-  │       └── com  
-  │         └── estsoft  
-  │           └── astronautbe  
-  │            └── AstronautBeApplicationTests.java
+</summary>
+  ├── README.md<br/>
+  ├── appspec.yml<br/>
+  ├── build.gradle<br/>
+  ├── gradle<br/>
+  ├── gradlew<br/>
+  ├── gradlew.bat<br/>
+  ├── pull_request_template.md<br/>
+  ├── scripts<br/>
+  │   └── deploy.sh<br/>
+  ├── settings.gradle<br/>
+  ├── src<br/>
+  │   ├── main<br/>
+  │   │   ├── java<br/>
+  │   │   │   └── com<br/>
+  │   │   │       └── estsoft<br/>
+  │   │   │           └── astronautbe<br/>
+  │   │   │               ├── AstronautBeApplication.java<br/>
+  │   │   │               ├── config<br/>
+  │   │   │               │   ├── ApiConstants.java<br/>
+  │   │   │               │   ├── JasyptConfigAES.java<br/>
+  │   │   │               │   ├── Scheduler.java<br/>
+  │   │   │               │   ├── SecurityConfig.java<br/>
+  │   │   │               │   └── WebConfig.java<br/>
+  │   │   │               ├── controller<br/>
+  │   │   │               │   ├── AuthController.java<br/>
+  │   │   │               │   ├── keyword<br/>
+  │   │   │               │   │   ├── GetKeywordController.java<br/>
+  │   │   │               │   │   ├── KeywordController.java<br/>
+  │   │   │               │   │   └── PopularKeywordController.java<br/>
+  │   │   │               │   ├── keywordNews<br/>
+  │   │   │               │   │   ├── AllenAIController.java<br/>
+  │   │   │               │   │   ├── KeywordNewsController.java<br/>
+  │   │   │               │   │   └── NewsApiController.java<br/>
+  │   │   │               │   ├── loading<br/>
+  │   │   │               │   │   └── LoadingPageController.java<br/>
+  │   │   │               │   ├── portfolio<br/>
+  │   │   │               │   │   └── PortfolioController.java<br/>
+  │   │   │               │   └── stock<br/>
+  │   │   │               │         ├── KrxApiController.java<br/>
+  │   │   │               │         └── StockController.java<br/>
+  │   │   │               ├── domain<br/>
+  │   │   │               │   ├── FamousQuote.java<br/>
+  │   │   │               │   ├── Keyword.java<br/>
+  │   │   │               │   ├── KeywordNews.java<br/>
+  │   │   │               │   ├── Portfolio.java<br/>
+  │   │   │               │   ├── RecommendKeywordStock.java<br/>
+  │   │   │               │   ├── RecommendPortfolioStock.java<br/>
+  │   │   │               │   ├── SearchVolume.java<br/>
+  │   │   │               │   ├── Stock.java<br/>
+  │   │   │               │   ├── Token.java<br/>
+  │   │   │               │   ├── Users.java<br/>
+  │   │   │               │   └── dto<br/>
+  │   │   │               │      ├── RecommendKeywordStockDTO.java<br/>
+  │   │   │               │      ├── RecommendKeywordStockRequestDTO.java<br/>
+  │   │   │               │      ├── RecommendKeywordStockResponseDTO.java<br/>
+  │   │   │               │      ├── RecommendStockAnswer.java<br/>
+  │   │   │               │      ├── SearchVolumeRequestDTO.java<br/>
+  │   │   │               │      ├── SearchVolumeResponseDTO.java<br/>
+  │   │   │               │      ├── SearchVolumeWithStockDTO.java<br/>
+  │   │   │               │      ├── keywordNews<br/>
+  │   │   │               │      │   └── KeywordNewsResponseDTO.java<br/>
+  │   │   │               │      ├── portfolio<br/>
+  │   │   │               │      │   ├── PortfolioPriceResponseDTO.java<br/>
+  │   │   │               │      │   ├── PortfolioRequestDto.java<br/>
+  │   │   │               │      │   ├── PortfolioResponseDto.java<br/>
+  │   │   │               │      │   └── PortfolioStockResponseDTO.java<br/>
+  │   │   │               │      └── stock<br/>
+  │   │   │               │          ├── StockDetailResponseDTO.java<br/>
+  │   │   │               │          └── StockResponseDTO.java<br/>
+  │   │   │               ├── repository<br/>
+  │   │   │               │   ├── KeywordNewsRepository.java<br/>
+  │   │   │               │   ├── KeywordRepository.java<br/>
+  │   │   │               │   ├── PortfolioRepository.java<br/>
+  │   │   │               │   ├── QuoteRepository.java<br/>
+  │   │   │               │   ├── RecommendKeywordStockRepository.java<br/>
+  │   │   │               │   ├── RecommendPortfolioStockRepository.java<br/>
+  │   │   │               │   ├── SearchVolumeRepository.java<br/>
+  │   │   │               │   ├── StockRepository.java<br/>
+  │   │   │               │   └── UsersRepository.java<br/>
+  │   │   │               ├── service<br/>
+  │   │   │               │   ├── GetKeywordService.java<br/>
+  │   │   │               │   ├── JwtService.java<br/>
+  │   │   │               │   ├── KakaoService.java<br/>
+  │   │   │               │   ├── KeywordService.java<br/>
+  │   │   │               │   ├── KrxApiService.java<br/>
+  │   │   │               │   ├── PopularKeywordService.java<br/>
+  │   │   │               │   ├── PortfolioService.java<br/>
+  │   │   │               │   ├── QuoteService.java<br/>
+  │   │   │               │   ├── StockService.java<br/>
+  │   │   │               │   └── keywordNews<br/>
+  │   │   │               │        ├── AllenAIService.java<br/>
+  │   │   │               │        ├── KeywordNewsService.java<br/>
+  │   │   │               │        └── NaverNewsApiService.java<br/>
+  │   │   │               └── util<br/>
+  │   │   │                      └── JsonParserUtil.java<br/>
+  │   │   └── resources<br/>
+  │   │        └── application.properties<br/>
+  └── └── test<br/>
+        └── java<br/>
+          └── com<br/>
+            └── estsoft<br/>
+              └── astronautbe<br/>
+               └── AstronautBeApplicationTests.java
 
 </details>
 
